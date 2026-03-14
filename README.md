@@ -27,6 +27,39 @@ JobQue Gatekeeper → Gatekeeper enforcement implementation
 - **JobQue Gatekeeper** enforces governance decisions before execution.
 
 ---
+## Architecture Diagram
+
+```text
+            Request Originator
+(AI Agent / Application / Human Event / System Trigger)
+                     │
+                     ▼
+                   GRC-P
+    Governance Runtime Control Protocol
+            (Architecture Standard)
+                     │
+                     ▼
+                   RGIS
+   Registry–Gatekeeper Interface Protocol
+                     │
+        ┌────────────┴────────────┐
+        │                         │
+        ▼                         ▼
+  GovenAI Registry         JobQue Gatekeeper
+Authority Implementation   Enforcement Implementation
+        │                         │
+        └────────────┬────────────┘
+                     ▼
+       Governance Enforcement Boundary
+                     │
+                     ▼
+           Operational Execution
+             (APIs / Systems)
+
+```
+The architecture is domain-agnostic and establishes a governance enforcement boundary in front of operational APIs and systems.
+
+Any execution surface placed behind this boundary becomes a governed execution environment.
 
 # Gatekeeper Responsibilities
 
@@ -130,7 +163,6 @@ Certain concepts described in this repository may be covered by pending patent a
 
 See `PATENT-NOTICE.md` for additional details.
 
----
 
 # Stewardship
 
