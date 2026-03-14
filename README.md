@@ -1,32 +1,17 @@
-# JobQue Gatekeeper
-Reference Runtime Enforcement Implementation
+# GovenAI Registry
+Reference Registry Authority Implementation
 
-![JobQue Version](https://img.shields.io/badge/JobQue--Gatekeeper-v1.0--draft-blue)
+![GovenAI Registry Version](https://img.shields.io/badge/GovenAI--Registry-v1.0--draft-blue)
 
-JobQue Gatekeeper is a reference **runtime enforcement implementation** for the **GRC-P** governance architecture and the **RGIS** runtime protocol.
+GovenAI Registry is the reference **registry authority implementation** for the **GRC-P** governance architecture and the **RGIS** runtime protocol.
 
-Gatekeepers enforce governance decisions before operational execution occurs.
+It maintains authoritative governance state used to determine whether operational actions are admissible before execution occurs.
 
-The gatekeeper does not define governance rules.  
-It enforces governance state maintained by a registry authority.
-
----
-
-# Role in the Stack
-
-
-GRC-P → Governance architecture
-RGIS → Runtime interoperability protocol
-GovenAI Registry → Registry authority implementation
-JobQue Gatekeeper → Gatekeeper enforcement implementation
-
-
-- **GRC-P** defines the governance architecture.
-- **RGIS** defines the runtime protocol between registry and gatekeeper.
-- **GovenAI Registry** maintains governance authority state.
-- **JobQue Gatekeeper** enforces governance decisions before execution.
+The registry does not execute actions.  
+It maintains governance authority state for evaluation by runtime gatekeepers.
 
 ---
+
 ## Architecture Diagram
 
 ```text
@@ -55,93 +40,79 @@ Authority Implementation   Enforcement Implementation
                      ▼
            Operational Execution
              (APIs / Systems)
-
 ```
-The architecture is domain-agnostic and establishes a governance enforcement boundary in front of operational APIs and systems.
 
-Any execution surface placed behind this boundary becomes a governed execution environment.
+The architecture is **domain-agnostic** and establishes a **governance enforcement boundary** in front of operational APIs and systems.
 
-# Gatekeeper Responsibilities
-
-A gatekeeper implementation performs runtime governance enforcement.
-
-The gatekeeper is responsible for:
-
-- intercepting governed operational requests
-- validating canonical request structure
-- verifying request identity
-- enforcing replay protection
-- querying registry governance state
-- enforcing deterministic **PERMIT / DENY** decisions
-- recording enforcement evidence
-
-Gatekeepers MUST enforce **fail-closed semantics**.
-
-If governance state cannot be verified, the request MUST be denied.
+Any execution surface placed behind this boundary becomes a **governed execution environment**.
 
 ---
 
-# Runtime Enforcement Flow
+## Role in the Stack
 
-A typical enforcement sequence follows this flow:
+```text
+GRC-P             → Governance architecture
+RGIS              → Runtime interoperability protocol
+GovenAI Registry  → Registry authority implementation
+JobQue Gatekeeper → Gatekeeper enforcement implementation
+```
 
-
-Operational Request
-↓
-Gatekeeper Intercepts Request
-↓
-Canonical Request Validation
-↓
-Identity Verification
-↓
-Registry Governance Query
-↓
-Permit / Deny Decision
-↓
-Execution Allowed or Blocked
-↓
-Evidence Event Recorded
-
-
-The gatekeeper enforces governance readiness determined by the registry authority.
+- **GRC-P** defines the governance architecture.
+- **RGIS** defines the runtime protocol between registry and gatekeeper.
+- **GovenAI Registry** is a registry authority implementation.
+- **JobQue Gatekeeper** is a runtime gatekeeper implementation.
 
 ---
 
-# Relationship to GRC-P and RGIS
+## Responsibilities
 
-JobQue Gatekeeper implements the **runtime enforcement role defined by GRC-P**.
+The registry authority maintains:
 
-The gatekeeper communicates with registry authorities using the **RGIS runtime protocol**.
+- governance targets
+- compliance checks
+- waivers
+- revocations
+- delegation relationships
+- readiness state
+- governance evidence
+
+The registry evaluates whether a governed subject is **structurally ready for operation**.
+
+---
+
+## Relationship to GRC-P and RGIS
+
+GovenAI Registry implements the **governance authority role defined by GRC-P**.
+
+It exposes authority state used by gatekeepers operating under **RGIS**.
 
 Repositories:
 
-GRC-P — Governance architecture  
-https://github.com/Ventiser/grc-p
-
-RGIS — Registry–Gatekeeper protocol  
-https://github.com/Ventiser/rgis
+- GRC-P: https://github.com/Ventiser/grc-p
+- RGIS: https://github.com/Ventiser/rgis
 
 ---
 
-# Repository Structure
+## Repository Structure
 
-
-architecture/ gatekeeper enforcement model
-runtime/ request interception and decision flow
-evidence/ enforcement evidence generation
-integration/ registry query integration (RGIS)
-conformance/ gatekeeper implementation notes
-
-
----
-
-# Status
-
-Draft publication of **JobQue Gatekeeper v1.0** reference implementation model.
+```text
+architecture/  registry authority model
+data-model/    governance state structures
+readiness/     readiness evaluation logic
+evidence/      governance evidence ledger
+api/           RGIS-facing authority endpoints
+conformance/   registry implementation notes
+```
 
 ---
 
-# Related Repositories
+## Status
+
+Draft publication of the **GovenAI Registry v1.0** reference implementation model.
+
+---
+
+## Related Repositories
 
 GRC-P — Governance architecture  
 https://github.com/Ventiser/grc-p
@@ -157,13 +128,6 @@ https://github.com/Ventiser/jobque-gatekeeper
 
 ---
 
-# Intellectual Property
-
-Certain concepts described in this repository may be covered by pending patent applications owned by Ventiser Pty Limited.
-
-See `PATENT-NOTICE.md` for additional details.
-
-
-# Stewardship
+## Stewardship
 
 Maintained by **Ventiser**.
